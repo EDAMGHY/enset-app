@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-new-product',
   templateUrl: './new-product.component.html',
-  styleUrl: './new-product.component.css',
 })
 export class NewProductComponent implements OnInit {
   public productForm!: FormGroup;
