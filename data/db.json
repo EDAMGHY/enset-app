@@ -28,13 +28,13 @@
       "id": "5",
       "name": "Chair",
       "price": 2300,
-      "checked": false
+      "checked": true
     },
     {
       "id": "6",
       "name": "Laptop",
       "price": 7900,
-      "checked": false
+      "checked": true
     },
     {
       "id": "7",
@@ -46,19 +46,19 @@
       "id": "8",
       "name": "Keyboard",
       "price": 1660,
-      "checked": false
+      "checked": true
     },
     {
       "id": "9",
       "name": "Chair",
       "price": 2300,
-      "checked": false
+      "checked": true
     },
     {
       "id": "10",
       "name": "Laptop",
       "price": 7900,
-      "checked": false
+      "checked": true
     },
     {
       "id": "11",
@@ -70,7 +70,19 @@
       "id": "12",
       "name": "Keyboard",
       "price": 1660,
-      "checked": true
+      "checked": false
+    },
+    {
+      "name": "ASAS",
+      "price": 123455,
+      "checked": true,
+      "id": "SOK5MU6"
+    },
+    {
+      "name": "as",
+      "price": null,
+      "checked": false,
+      "id": "M2buYFn"
     }
   ]
 }

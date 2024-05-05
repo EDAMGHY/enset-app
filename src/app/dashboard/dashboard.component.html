@@ -1,0 +1,33 @@
+<small>
+  <nav class="p-1 m-1 text-white fw-bold">
+    <div class="card">
+      <div class="card-body">
+        <ul class="nav nav-pills">
+          <li>
+            <div class="border border-info bg-success p-1 ms-1">
+              Total: {{ appState.productState.total }}
+            </div>
+          </li>
+          <li>
+            <div class="border border-info bg-info p-1 ms-1">
+              Checked: {{ totalCheckedProducts() }}
+            </div>
+          </li>
+          <li>
+            <div
+              *ngIf="appState.productState.pages"
+              class="border border-info bg-primary p-1 ms-1"
+            >
+              Pages: {{ appState.productState.pages.length }}
+            </div>
+          </li>
+          <li>
+            <div class="border border-info bg-danger p-1 ms-1">
+              Size: {{ appState.productState.limit }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</small>

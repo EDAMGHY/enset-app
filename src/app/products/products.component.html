@@ -3,7 +3,7 @@
     <div class="p-3 d-flex gap-2">
       <input
         type="text"
-        [(ngModel)]="keyword"
+        [(ngModel)]="appState.productState.keyword"
         class="form-control"
         placeholder="Search"
       />
@@ -13,9 +13,9 @@
     </div>
     <div class="card-body">
       <h2 class="card-title">Products Component</h2>
-      <div *ngIf="isLoading">Loading...</div>
+      <div *ngIf="appState.productState.isLoading">Loading...</div>
 
-      <table *ngIf="!isLoading" class="table">
+      <table *ngIf="!appState.productState.isLoading" class="table">
         <thead>
           <tr>
             <th>ID</th>
@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of products">
+          <tr *ngFor="let product of appState.productState.products">
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.price }}</td>
@@ -55,9 +55,13 @@
       </table>
 
       <ul class="nav nav-pills gap-2">
-        <li *ngFor="let p of pages">
+        <li *ngFor="let p of appState.productState.pages">
           <button
-            class="btn {{ p === page ? 'btn-primary' : 'btn-outline-primary' }}"
+            class="btn {{
+              p === appState.productState.page
+                ? 'btn-primary'
+                : 'btn-outline-primary'
+            }}"
             (click)="setPage(p)"
           >
             {{ p }}

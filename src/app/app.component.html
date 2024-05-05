@@ -1,18 +1,4 @@
-<nav class="p-3">
-  <ul class="nav nav-pills gap-2">
-    <li *ngFor="let menu of menus">
-      <button
-        (click)="setActiveMenu(menu.path)"
-        class="btn {{
-          currentPath === menu.path ? 'btn-primary' : 'btn-outline-primary'
-        }}"
-        routerLink="{{ menu.path }}"
-      >
-        <i *ngIf="menu.icon" class="bi bi-{{ menu.icon }}"></i>
-        {{ menu.title }}
-      </button>
-    </li>
-  </ul>
-</nav>
-
+<app-navbar></app-navbar>
+<app-app-error></app-app-error>
+<app-dashboard></app-dashboard>
 <router-outlet></router-outlet>

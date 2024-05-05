@@ -3,70 +3,150 @@ import { IProduct } from '../types';
 import { ProductService } from '../services/product.service';
 import { calculatePagination } from '../utils';
 import { Router } from '@angular/router';
+import { AppStateService } from '../services/app-state.service';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit {
-  public isLoading = false;
-  public keyword = '';
-  public page: number = 1;
-  public limit: number = 5;
-  public pages!: number[];
-  public products: IProduct[] = [];
-
-  constructor(private ps: ProductService, private router: Router) {}
+  constructor(
+    private ps: ProductService,
+    private router: Router,
+    public appState: AppStateService
+  ) {}
 
   setPage(pageNumber: number) {
-    this.isLoading = true;
-    this.page = pageNumber;
+    this.appState.productState.isLoading = true;
+    this.appState.productState.page = pageNumber;
     this.ps
-      .getProducts(pageNumber, this.limit, this.keyword)
-      .subscribe((response) => {
-        this.products = response.body as IProduct[];
-        this.pages = calculatePagination(this.limit, response);
-        this.isLoading = false;
+      .getProducts(
+        pageNumber,
+        this.appState.productState.limit,
+        this.appState.productState.keyword
+      )
+      .subscribe({
+        next: (response) => {
+          this.appState.productState.products = response.body as IProduct[];
+          const { pages = [], count = 0 } = calculatePagination(
+            this.appState.productState.limit!,
+            response
+          );
+
+          this.appState.productState.pages = pages;
+          this.appState.productState.total = count;
+          this.appState.productState.isLoading = false;
+        },
+        error: (err) => {
+          console.log(err);
+          this.appState.setProductState({
+            isLoading: false,
+            isError: true,
+            errorMessage: err?.message || '',
+          });
+        },
       });
   }
 
   toggleChecked(product: IProduct) {
     product.checked = !product.checked;
-    this.ps.editProduct(product).subscribe((data) => {
-      console.log('toggleChecked', data);
+    this.ps.editProduct(product).subscribe({
+      next: (data) => {
+        console.log('toggleChecked', data);
+      },
+      error: (err) => {
+        console.log(err);
+        this.appState.setProductState({
+          isLoading: false,
+          isError: true,
+          errorMessage: err?.message || '',
+        });
+      },
     });
   }
   deleteProd(product: IProduct) {
     if (confirm('Are you sure?'))
-      this.ps.deleteProduct(product).subscribe((data) => {
-        this.products = this.products.filter(
-          (p: IProduct) => p.id !== product.id
-        );
+      this.ps.deleteProduct(product).subscribe({
+        next: (data) => {
+          this.appState.productState.products =
+            this.appState.productState.products!.filter(
+              (p: IProduct) => p.id !== product.id
+            );
+          this.searchProducts();
+        },
+        error: (err) => {
+          console.log(err);
+          this.appState.setProductState({
+            isLoading: false,
+            isError: true,
+            errorMessage: err?.message || '',
+          });
+        },
       });
   }
 
   searchProducts() {
-    this.isLoading = true;
-    this.ps.getProducts(this.page, this.limit, this.keyword).subscribe({
-      next: (response) => {
-        this.products = response.body as IProduct[];
-        this.pages = calculatePagination(this.limit, response);
-        this.isLoading = false;
-      },
-    });
+    this.appState.productState.isLoading = true;
+    this.ps
+      .getProducts(
+        this.appState.productState.page,
+        this.appState.productState.limit,
+        this.appState.productState.keyword
+      )
+      .subscribe({
+        next: (response) => {
+          this.appState.productState.products = response.body as IProduct[];
+          const { pages = [], count = 0 } = calculatePagination(
+            this.appState.productState.limit!,
+            response
+          );
+
+          this.appState.productState.pages = pages;
+          this.appState.productState.total = count;
+          this.appState.productState.isLoading = false;
+        },
+        error: (err) => {
+          console.log(err);
+          this.appState.setProductState({
+            isLoading: false,
+            isError: true,
+            errorMessage: err?.message || '',
+          });
+        },
+      });
   }
   editProduct(product: IProduct) {
     this.router.navigateByUrl(`/edit-product/${product.id}`);
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.ps.getProducts(this.page, this.limit, this.keyword).subscribe({
-      next: (response) => {
-        this.products = response.body as IProduct[];
-        this.pages = calculatePagination(this.limit, response);
-        this.isLoading = false;
-      },
-    });
+    this.appState.productState.isLoading = true;
+    this.ps
+      .getProducts(
+        this.appState.productState.page,
+        this.appState.productState.limit,
+        this.appState.productState.keyword
+      )
+      .subscribe({
+        next: (response) => {
+          this.appState.productState.products = response.body as IProduct[];
+          const { pages = [], count = 0 } = calculatePagination(
+            this.appState.productState.limit!,
+            response
+          );
+
+          this.appState.productState.pages = pages;
+          this.appState.productState.total = count;
+          this.appState.productState.isLoading = false;
+        },
+        error: (err) => {
+          console.log('err', err);
+          this.appState.setProductState({
+            isLoading: false,
+            isError: true,
+            errorMessage: err?.message || '',
+          });
+        },
+      });
   }
 }

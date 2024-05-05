@@ -3,11 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../services/product.service';
 import { IProduct } from '../types';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AppStateService } from '../services/app-state.service';
 
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
-  styleUrl: './edit-product.component.css',
 })
 export class EditProductComponent implements OnInit {
   id!: number;
@@ -17,7 +17,8 @@ export class EditProductComponent implements OnInit {
     private router: ActivatedRoute,
     private route: Router,
     private ps: ProductService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private appState: AppStateService
   ) {}
 
   onSubmit() {
@@ -28,6 +29,14 @@ export class EditProductComponent implements OnInit {
     this.ps.editProduct(product).subscribe({
       next: (data) => {
         this.route.navigateByUrl('/products');
+      },
+      error: (err) => {
+        console.log('err', err);
+        this.appState.setProductState({
+          isLoading: false,
+          isError: true,
+          errorMessage: err?.message || '',
+        });
       },
     });
   }
@@ -47,8 +56,13 @@ export class EditProductComponent implements OnInit {
           checked: this.fb.control(data.checked),
         });
       },
-      error(err) {
-        console.log(err);
+      error: (err) => {
+        console.log('err', err);
+        this.appState.setProductState({
+          isLoading: false,
+          isError: true,
+          errorMessage: err?.message || '',
+        });
       },
     });
   }
