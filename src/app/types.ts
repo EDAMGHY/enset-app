@@ -4,3 +4,8 @@ export interface IProduct {
   price: number;
   checked: boolean;
 }
+export interface IPaginatedProducts {
+  pages: number;
+  items: number;
+  data: IProduct[];
+}

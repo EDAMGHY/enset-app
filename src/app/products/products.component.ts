@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../types';
 import { ProductService } from '../services/product.service';
+import { calculatePagination } from '../utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -15,13 +17,18 @@ export class ProductsComponent implements OnInit {
   public pages!: number[];
   public products: IProduct[] = [];
 
-  constructor(private ps: ProductService) {}
+  constructor(private ps: ProductService, private router: Router) {}
 
   setPage(pageNumber: number) {
+    this.isLoading = true;
     this.page = pageNumber;
-    this.ps.getProducts(pageNumber, this.limit).subscribe((data) => {
-      this.products = data?.data;
-    });
+    this.ps
+      .getProducts(pageNumber, this.limit, this.keyword)
+      .subscribe((response) => {
+        this.products = response.body as IProduct[];
+        this.pages = calculatePagination(this.limit, response);
+        this.isLoading = false;
+      });
   }
 
   toggleChecked(product: IProduct) {
@@ -40,19 +47,27 @@ export class ProductsComponent implements OnInit {
   }
 
   searchProducts() {
-    this.ps.search(this.keyword).subscribe((data) => {
-      console.log('datadata', data);
-      this.products = data;
+    this.isLoading = true;
+    this.ps.getProducts(this.page, this.limit, this.keyword).subscribe({
+      next: (response) => {
+        this.products = response.body as IProduct[];
+        this.pages = calculatePagination(this.limit, response);
+        this.isLoading = false;
+      },
     });
+  }
+  editProduct(product: IProduct) {
+    this.router.navigateByUrl(`/edit-product/${product.id}`);
   }
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.ps.getProducts(this.page, this.limit).subscribe((data) => {
-      console.log('arrarr', data);
-      this.products = data?.data;
-      this.pages = Array.from({ length: data?.pages }).map((x, i) => i + 1);
-      this.isLoading = false;
+    this.ps.getProducts(this.page, this.limit, this.keyword).subscribe({
+      next: (response) => {
+        this.products = response.body as IProduct[];
+        this.pages = calculatePagination(this.limit, response);
+        this.isLoading = false;
+      },
     });
   }
 }

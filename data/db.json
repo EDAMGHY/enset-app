@@ -2,9 +2,9 @@
   "products": [
     {
       "id": "1",
-      "name": "Chair",
-      "price": 2300,
-      "checked": false
+      "name": "Chair AAAWWWW",
+      "price": 230000,
+      "checked": true
     },
     {
       "id": "2",
@@ -16,7 +16,7 @@
       "id": "3",
       "name": "Mouse",
       "price": 4500,
-      "checked": true
+      "checked": false
     },
     {
       "id": "4",
@@ -25,52 +25,52 @@
       "checked": false
     },
     {
-      "id": "1",
+      "id": "5",
       "name": "Chair",
       "price": 2300,
       "checked": false
     },
     {
-      "id": "2",
+      "id": "6",
       "name": "Laptop",
       "price": 7900,
       "checked": false
     },
     {
-      "id": "3",
+      "id": "7",
       "name": "Mouse",
       "price": 4500,
       "checked": true
     },
     {
-      "id": "4",
+      "id": "8",
       "name": "Keyboard",
       "price": 1660,
       "checked": false
     },
     {
-      "id": "1",
+      "id": "9",
       "name": "Chair",
       "price": 2300,
       "checked": false
     },
     {
-      "id": "2",
+      "id": "10",
       "name": "Laptop",
       "price": 7900,
       "checked": false
     },
     {
-      "id": "3",
+      "id": "11",
       "name": "Mouse",
       "price": 4500,
       "checked": true
     },
     {
-      "id": "4",
+      "id": "12",
       "name": "Keyboard",
       "price": 1660,
-      "checked": false
+      "checked": true
     }
   ]
 }
