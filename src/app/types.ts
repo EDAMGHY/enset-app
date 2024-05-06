@@ -21,6 +21,25 @@ export interface IProductState {
   pages?: number[];
   products?: IProduct[];
 }
+export interface IAuthState {
+  isAuthenticated?: boolean;
+  isLoading?: boolean;
+  isError?: boolean;
+  errorMessage?: string;
+  username?: string;
+  password?: string;
+  token?: string;
+  roles?: string[];
+  [key: string]: any;
+}
+
+export interface IUser {
+  id?: string;
+  username?: string;
+  password?: string;
+  token?: string;
+  roles?: string[];
+}
 
 export interface IMenu {
   title: string;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IProductState } from '../types';
+import { IAuthState, IProductState } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +17,24 @@ export class AppStateService {
     products: [],
   };
 
+  public authState: IAuthState = {
+    isAuthenticated: false,
+    username: '',
+    roles: [],
+    token: '',
+    isError: false,
+    isLoading: false,
+    errorMessage: '',
+    openaiKey: 'YOUR API KEY',
+  };
+
   constructor() {}
 
   public setProductState(state: IProductState) {
     this.productState = { ...this.productState, ...state };
+  }
+
+  public setAuthState(state: any) {
+    this.authState = { errorMessage: '', ...this.authState, ...state };
   }
 }

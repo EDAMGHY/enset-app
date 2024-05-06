@@ -13,6 +13,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppErrorComponent } from './app-error/app-error.component';
 import { HttpAppInterceptor } from './services/app-http.interceptor';
+import { LoginComponent } from './login/login.component';
+import { AdminTempComponent } from './admin-temp/admin-temp.component';
+import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { HttpAppInterceptor } from './services/app-http.interceptor';
     DashboardComponent,
     NavbarComponent,
     AppErrorComponent,
+    LoginComponent,
+    AdminTempComponent,
+    NotAuthorizedComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { IMenu } from '../types';
 import { LoadingService } from '../services/loading.service';
+import { AppStateService } from '../services/app-state.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -17,7 +20,12 @@ export class NavbarComponent {
     this.currentPath = path;
   }
 
-  constructor(private ld: LoadingService) {}
+  constructor(
+    private ld: LoadingService,
+    public appState: AppStateService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.menus = [
@@ -28,15 +36,24 @@ export class NavbarComponent {
       },
       {
         title: 'Products',
-        path: '/products',
+        path: '/admin/products',
         icon: 'arrow-down-up',
       },
       {
         title: 'New Product',
-        path: '/new-product',
+        path: '/admin/new-product',
         icon: 'plus-circle',
       },
     ];
     this.currentPath = window.location.pathname;
+  }
+
+  handleLogout() {
+    this.authService.logout();
+    this.router.navigateByUrl('/login');
+  }
+
+  handleLogin() {
+    this.router.navigateByUrl('/login');
   }
 }

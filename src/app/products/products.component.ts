@@ -116,7 +116,7 @@ export class ProductsComponent implements OnInit {
       });
   }
   editProduct(product: IProduct) {
-    this.router.navigateByUrl(`/edit-product/${product.id}`);
+    this.router.navigateByUrl(`/admin/edit-product/${product.id}`);
   }
 
   ngOnInit(): void {
